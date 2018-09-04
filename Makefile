@@ -15,5 +15,11 @@ dev-workspace:
 
 .PHONY: dev-ingress
 dev-ingress: 
-	- kubectl 
-	- kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/provider/cloud-generic.yaml
+	#- kubectl 
+	- kubectl apply -f kube-ingress.yaml
+	#- kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/provider/cloud-generic.yaml
+
+.PHONY: kube-namespaces
+kube-namespaces:
+	- kubectl get namespaces --show-labels
+
