@@ -1,6 +1,4 @@
 project:=foo
-#KUBE_DASHBOARD:=$(kubectl get pods --namespace=kube-system -l k8s-app=kubernetes-dashboard -o jsonpath='{.items[0].metadata.name}')
-KUBE_DASHBOARD:=kubernetes-dashboard-7b9c7bc8c9-nfsk2
 
 .PHONY: default
 default: start
@@ -19,7 +17,6 @@ dev-workspace:
 
 .PHONY: dev-ingress
 dev-ingress: 
-	#- kubectl 
 	- kubectl apply -f kube-ingress.yaml
 	#- kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/provider/cloud-generic.yaml
 
@@ -31,8 +28,12 @@ kube-namespaces:
 kube-dashboard-install: 
 	- kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
 
+KUBE_DASHBOARD_NAME := $(shell kubectl get pods --namespace=kube-system -l k8s-app=kubernetes-dashboard -o jsonpath='{.items[0].metadata.name}')
+
+.PHONY: kube-dashboard-name
+kube-dashboard-name: 
+	@echo ${KUBE_DASHBOARD_NAME}
+
 .PHONY: kube-dashboard-route
 kube-dashboard-route:
-	- kubectl port-forward ${KUBE_DASHBOARD} 8443:8443 --namespace=kube-system
-	- @echo ${KUBE_DASHBOARD}
-	- @echo ${project}
+	- kubectl port-forward ${KUBE_DASHBOARD_NAME} 8443:8443 --namespace=kube-system
