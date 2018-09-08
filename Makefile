@@ -14,11 +14,22 @@ stop:
 .PHONY: dev-workspace
 dev-workspace:
 	- kubectl apply -f kube-devspace.yml
+	- kubectl apply -f kube-ingress-services.yaml
 
 .PHONY: dev-ingress
 dev-ingress: 
-	- kubectl apply -f kube-ingress.yaml
-	#- kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/provider/cloud-generic.yaml
+	- kubectl apply -f kube-ingress-nginx-setup.yaml
+	- kubectl apply -f kube-ingress-docker4mac.yaml
+
+.PHONY: dev-ingress-status
+dev-ingress-status:
+	- kubectl get pods --all-namespaces -l app.kubernetes.io/name=ingress-nginx --watch
+
+KUBE_INGRESS_CONTROLLER_NAME := $(shell kubectl get pods --namespace=ingress-nginx -l app.kubernetes.io/name=ingress-nginx -o jsonpath='{.items[0].metadata.name}')
+
+.PHONY: ingress-config
+ingress-config:
+	- kubectl -n ingress-nginx exec $(KUBE_INGRESS_CONTROLLER_NAME) -- cat /etc/nginx/nginx.conf
 
 .PHONY: kube-namespaces
 kube-namespaces:
