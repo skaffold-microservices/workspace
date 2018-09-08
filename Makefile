@@ -11,6 +11,9 @@ start:
 stop: 
 	- echo "stop"
 
+.PHONY: setup
+setup: nginx-ingress dev-workspace
+
 .PHONY: dev-workspace
 dev-workspace:
 	#- kubectl apply -f kube-devspace.yml
