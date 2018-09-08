@@ -15,6 +15,11 @@ spec:
         backend:
           serviceName: ms-go-hello
           servicePort: 3737
+      - path: /node
+        backend:
+          serviceName: ms-node-hello
+          servicePort: 3000
+
 
 ---
 

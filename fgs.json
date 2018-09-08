@@ -1,6 +1,9 @@
 {
-  "go-skaffold-demo" : {
-    "url"  : "https://github.com/skaffold-microservices/go-skaffold-demo.git",
-    "branch" : "master"
-  }
+    "ms-go-skaffold-demo": {
+        "url": "https://github.com/skaffold-microservices/go-skaffold-demo.git",
+        "branch": "master"
+    },
+    "ms-node-skaffold-demo": {
+        "url": "https://github.com/skaffold-microservices/node-skaffold-demo.git"
+    }
 }
