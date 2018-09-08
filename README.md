@@ -30,4 +30,4 @@ the microservice to be up (e.g. as a dependency for something else)
 ### Usage
 
 1. Go service: `http://localhost/go`
-1. Node service: `http://localhost/go`
+1. Node service: `http://localhost/node`
