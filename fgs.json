@@ -1,0 +1,6 @@
+{
+  "go-skaffold-demo" : {
+    "url"  : "https://github.com/skaffold-microservices/go-skaffold-demo.git",
+    "branch" : "master"
+  }
+}

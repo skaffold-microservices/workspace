@@ -1,5 +1,29 @@
 project:=foo
 
+ifeq ($(OS),Windows_NT)
+	CHECKOUT_BIN:=checkout.exe
+else
+	UNAME_S:=$(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+		CHECKOUT_BIN:=checkout-linux
+	endif
+	ifeq ($(UNAME_S),Darwin)
+		CHECKOUT_BIN:=checkout-mac
+	endif
+endif
+
+.PHONY: get-fgs
+get-fgs:
+	cd ./bin && \
+	curl -O https://raw.githubusercontent.com/inadarei/faux-git-submodules/master/build/checkout-mac && \
+	curl -O https://raw.githubusercontent.com/inadarei/faux-git-submodules/master/build/checkout-linux && \
+	curl -O https://raw.githubusercontent.com/inadarei/faux-git-submodules/master/build/checkout-windows && \
+	chmod 775 checkout-* && cd --
+
+.PHONY: update
+update:
+	- @./bin/${CHECKOUT_BIN}
+
 .PHONY: default
 default: start
 
