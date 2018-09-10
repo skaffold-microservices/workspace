@@ -12,6 +12,9 @@ else
 	endif
 endif
 
+.PHONY: default
+default: start
+
 .PHONY: get-fgs
 get-fgs:
 	cd ./bin && \
@@ -24,23 +27,22 @@ get-fgs:
 update:
 	- @./bin/${CHECKOUT_BIN}
 
-.PHONY: default
-default: start
-
 .PHONY: start
-start: 
-	- echo "start"
+start: nginx-ingress services-run services-ingress
 
 .PHONY: stop
 stop: 
 	- echo "stop"
 
-.PHONY: setup
-setup: nginx-ingress dev-workspace
+.PHONY: services-run
+services-run:
+	- cd ms-go-skaffold-demo && skaffold run && cd -
+	- cd ms-node-skaffold-demo && skaffold run && cd -
 
-.PHONY: dev-workspace
-dev-workspace:
+.PHONY: services-ingress
+services-ingress:
 	#- kubectl apply -f kube-devspace.yml
+	- kubectl apply -f kube-ingress-dashboard.yaml
 	- kubectl apply -f kube-ingress-services.yaml
 
 .PHONY: nginx-ingress
@@ -70,6 +72,6 @@ KUBE_DASHBOARD_NAME := $(shell kubectl get pods --namespace=kube-system -l k8s-a
 kube-dashboard-name: 
 	@echo ${KUBE_DASHBOARD_NAME}
 
-.PHONY: kube-dashboard-route
-kube-dashboard-route:
+.PHONY: kube-dashboard
+kube-dashboard:
 	- kubectl port-forward ${KUBE_DASHBOARD_NAME} 8443:8443 --namespace=kube-system
