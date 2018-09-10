@@ -28,7 +28,7 @@ update:
 	- @./bin/${CHECKOUT_BIN}
 
 .PHONY: start
-start: nginx-ingress services-run services-ingress
+start: nginx-ingress update services-run services-ingress
 
 .PHONY: stop
 stop: 
